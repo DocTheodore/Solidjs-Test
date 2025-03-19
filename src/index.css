@@ -50,6 +50,17 @@
   margin: 3% 0;
   color: white;
 }
+.center .divider{
+  border-top: solid white 2px;
+  border-bottom: solid white 2px;
+  width: 85em;
+  padding: 3px 0 3px 0;
+  text-align: center;
+}
+.center div.deck{
+  border: none;
+  width: 10em;
+}
 
 .deck {
   display: flex;
@@ -60,6 +71,7 @@
   margin: .2px;
   cursor: pointer;
   transition: 3s;
+  border: none;
 }
 
 .play {
@@ -69,7 +81,7 @@
 }
 
 .card{
-  border: solid black 1px; 
+  border: solid black 1px !important; 
   border-radius: .1em;
   width: 90px;
   padding: 50px 10px;
@@ -80,28 +92,31 @@
   margin-left: 5%;
   background-color: white;
   transition: 0.2s;
+  text-shadow: -1px -1px 1px white, 1px 1px 1px white, -2px -2px 1px black, 2px 2px 1px black;
 }
 
 .deck-card{
   background-color: red;
   color: white;
+  text-shadow: -1px 1px 1px black, 1px -1px 1px black, -2px 2px 1px white, 2px -2px 1px white;
 }
 
 .pass-btn{
   margin: 5% 0;
   width: 45px;
   height: 111px;
-  background-color:black;
   color: white;
   font-weight: bold;
   border: none;
-  border-top: solid black 50px;
-  border-bottom: solid black 50px;
+  background-color:#000;
+  border-top: solid #000 50px;
+  border-bottom: solid #000 50px;
   cursor: pointer;
   transition: .4s;
+  border-radius: 1px;
 }
 .pass-btn:hover{
-  color: blue;
+  color: red;
   transition: 0.2s;
 }
 
@@ -117,11 +132,13 @@
 }
 
 .score{
-  width: 100%;
+  width: 75%;
   display: flex;
   align-items:center;
   justify-content: space-around;
   transition: 2s;
+  border-bottom: solid white 1px;
+  margin-bottom: 1em;
 }
 .score div{
   width: 10%;

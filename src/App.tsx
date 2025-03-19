@@ -5,6 +5,7 @@ import Pointer from "./pointer";
 import BuyCard from "./buycard";
 import Pass from "./pass";
 import Reset from "./reset";
+import RegisterName from "./register-name";
 
 function nameCheck(text:string, placeholder:string){
   return text === ""? placeholder: text
@@ -33,20 +34,7 @@ function Counter() {
     <>
       <div class="table">
 
-        <div class="register-name">
-          <Show when={playerName()===""}>
-            <input ref={nameInput} value={playerName()} placeholder="Player"/>
-            <button onClick={(e)=>{
-              try{
-                setPlayerName(nameCheck(nameInput.value, "Player"));
-                setPlayerBuy(true);
-              }catch(err){
-                console.log(err);
-              }
-              }}>Register
-            </button>
-          </Show>
-        </div>
+        <RegisterName playerName={playerName} setPlayerName={setPlayerName} setPlayerBuy={setPlayerBuy} nameCheck={nameCheck} placeholder={"Player"} />
 
         <div class="score">
           <div class="score-dealer">Dealer: {dealerScore()}</div>
