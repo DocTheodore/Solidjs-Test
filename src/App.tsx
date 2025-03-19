@@ -6,6 +6,10 @@ import BuyCard from "./buycard";
 import Pass from "./pass";
 import Reset from "./reset";
 
+function nameCheck(text:string, placeholder:string){
+  return text === ""? placeholder: text
+}
+
 function Counter() {
   //Variables --------------------------------------------
   const [dealerPoints, setDealerPoints] = createSignal(0);
@@ -15,17 +19,34 @@ function Counter() {
   const [playerScore, setPlayerScore] = createSignal(0);
   
 
-  const [playerBuy, setPlayerBuy ] = createSignal(true);
+  const [playerBuy, setPlayerBuy ] = createSignal(false);
   const [game, setGame] = createSignal(true);
 
   const [dealerCards, setDealerCards] = createSignal([]);
   const [playerCards, setPlayerCards] = createSignal([]);
 
+  const [playerName, setPlayerName] = createSignal("");
+  let nameInput:any;
 
   //Render --------------------------------------------
   return (
     <>
       <div class="table">
+
+        <div class="register-name">
+          <Show when={playerName()===""}>
+            <input ref={nameInput} value={playerName()} placeholder="Player"/>
+            <button onClick={(e)=>{
+              try{
+                setPlayerName(nameCheck(nameInput.value, "Player"));
+                setPlayerBuy(true);
+              }catch(err){
+                console.log(err);
+              }
+              }}>Register
+            </button>
+          </Show>
+        </div>
 
         <div class="score">
           <div class="score-dealer">Dealer: {dealerScore()}</div>
@@ -41,7 +62,7 @@ function Counter() {
             list1={setDealerCards}list2={setPlayerCards}
             />
           </Show>
-          <div class="score-player">Player: {playerScore()}</div>
+          <div class="score-player">{nameCheck(playerName(), "Player")}: {playerScore()}</div>
         </div>
 
         <div class="play">
@@ -60,7 +81,7 @@ function Counter() {
             </div>
           </div>
 
-          <Pointer Points={playerPoints} player="Player"/>
+          <Pointer Points={playerPoints} player={nameCheck(playerName(), "Player")}/>
         </div>
 
         <div class="play">

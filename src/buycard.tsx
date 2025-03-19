@@ -6,7 +6,7 @@ function BuyCard(setGame:Function, setCards:Setter<any>, points:Function, newCar
         return
     };
 
-    if(newCard === 0) newCard = Math.floor(Math.random()*12)+1;
+    if(newCard === 0) newCard = Math.floor(Math.random()*13)+1;
     setCards((prev) => [...prev, newCard])
 
     if(points() >= 21) {
