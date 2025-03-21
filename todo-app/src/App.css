@@ -1,0 +1,102 @@
+*{
+  margin: 0;
+  border: none;
+  outline: none;
+}
+#root{
+  min-width: 100%;
+  min-height: 60.4em;
+}
+
+.background{
+  background-color: rgb(26, 255, 26);
+  min-width: 100%;
+  min-height: 60.4em;
+  display: flex;
+}
+.page{
+  background-color: whitesmoke;
+  width: 100rem;
+  margin: 4em 8em;
+  padding: 2em 4em;
+  min-height: 45em;
+}
+
+
+
+/* Todo List */
+.todo{
+  display: flex;
+  padding: 1em;
+}
+.input-todo{
+  height: 1.9em;
+  padding: 0 1em;
+  border-radius: 1em 0 0 1em;
+  border: 1px solid gray;
+  transition: .3s;
+}
+.input-todo:focus{
+  background-color: rgb(234, 245, 255);
+  transition: .3s;
+}
+.btn-todo{
+  height: 1.7em;
+  width: 7em;
+  border-radius: 0 1em 1em 0;
+  border: 1px solid gray;
+  border-left: none;
+  background-color: #999;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-todo:focus{
+  background-color: #333;
+  border: 1px solid gray;
+  border-left: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.todo-list-item{
+  border-bottom: 1px solid gray;
+  height: 3em;
+  display: flex;
+  padding: 0 1.5em;
+}
+.todo-list-item input{
+  position: relative;
+  z-index: -9999;
+}
+.todo-list-item label{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.todo-list-item span{
+  border-radius: 10em;
+  background-color: #eee;
+  border: 1px #333 solid;
+  width: .9em;
+  height: .75em;
+  display: inline-block;
+  color: rgba(0, 0, 0, 0);
+  text-align: center;
+  font-weight: bolder;
+  font-size: 2em;
+  padding-bottom: .15em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.todo-list-item input:checked +span{
+  color: #333;
+}
+
+.todo-list-item-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,4 +1,4 @@
-import { createSignal, Show, For, Switch, Match, Setter } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import Card from "./card";
 import CardRow from "./card-row";
 import Pointer from "./pointer";
@@ -27,7 +27,6 @@ function Counter() {
   const [playerCards, setPlayerCards] = createSignal([]);
 
   const [playerName, setPlayerName] = createSignal("");
-  let nameInput:any;
 
   //Render --------------------------------------------
   return (
