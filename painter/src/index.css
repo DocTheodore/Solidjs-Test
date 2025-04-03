@@ -1,0 +1,95 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: inline;
+  place-items: center;
+
+  min-width: 320px;
+  min-height: 100vh;
+}
+#background {
+  min-height: 50rem;
+  width: 80%;
+  background-color: white;
+  color: rgb(17, 17, 17);
+  margin-left: 10%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#pallette {
+  margin-right: 2em;
+  border: #242424 1px solid;
+}
+#table {
+  border: #242424 1px solid;
+}
+
+.lin {
+  display: flex;
+}
+
+.tile {
+  width: 2.5em;
+  height: 2.5em;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.white {
+  background-color: white;
+}
+.gray {
+  background-color: #636363;
+}.black {
+  background-color: #242424;
+  color: white;
+}.purple {
+  background-color: rgb(226, 0, 170);
+}
+.blue {
+  background-color: #002dc0;
+}.cyan {
+  background-color: rgb(10, 201, 248);
+}
+.green {
+  background-color: #00b32d;
+}.yellow {
+  background-color: rgb(255, 241, 50);
+}
+.orange {
+  background-color: #ff8800;
+}.red {
+  background-color: rgb(255, 0, 0);
+}
+
+#tools {
+  margin-left: 1.8em;
+}
+#btn-clear{
+  width: 3em;
+  height: 3em;
+  border: 1px solid #232323;
+  border-radius: 3px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
