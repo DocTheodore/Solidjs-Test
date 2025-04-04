@@ -35,11 +35,9 @@ function App() {
               <div
                 class={`tile ${changeColor(index())}`}
                 onClick={() => setColor(index())}
-                style={{
-                  border: color() === index() ? "0.15em solid #f8f800" : "none",
-                  width: "2.25em",
-                  height: "2.25em",
-                }}
+                style={
+                  "border: "+ (color() === index() ? "0.15em solid #f8f800; width:2.25em; height: 2.25em" : "none")
+                }
               >
                 {index()}
               </div>
