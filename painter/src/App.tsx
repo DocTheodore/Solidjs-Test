@@ -18,13 +18,7 @@ function App() {
 
   const changeColor = (index:number) => colorMapping[index] || "white";
 
-  const [tiles, setTiles] = createSignal(Array.from({ length: 10 }, () => Array(10).fill("0")));
-
-  const handleTileClick = (rowIndex:number, colIndex:number) => {
-    const newTiles = [...tiles()];
-    newTiles[rowIndex][colIndex] = color();
-    setTiles(newTiles);
-  };
+  const [tiles, setTiles] = createSignal(Array.from({ length: 10 }, () => Array(10).fill(0)));
 
   return (
     <>
@@ -36,7 +30,7 @@ function App() {
                 class={`tile ${changeColor(index())}`}
                 onClick={() => setColor(index())}
                 style={
-                  "border: "+ (color() === index() ? "0.15em solid #f8f800; width:2.25em; height: 2.25em" : "none")
+                  "border: "+ (color() === index() ? "0.15em solid #f8e800; width:2.25em; height: 2.25em" : "none")
                 }
               >
                 {index()}
@@ -51,12 +45,16 @@ function App() {
               <div class="lin" id={"lin" + rowIndex()}>
                 <For each={line}>
                   {(item, colIndex) => {
-                    const tileColor = tiles()[rowIndex()][colIndex()];
+                    const [tileColor, setTileColor] = createSignal(tiles()[rowIndex()][colIndex()]);
+                    //console.log(tileColor());
                     return (
                       <div
-                        class={`tile ${changeColor(tileColor)}`}
+                        class={`tile ${changeColor(tileColor())}`}
                         id={`tile_${rowIndex()}_${colIndex()}`}
-                        onClick={() => handleTileClick(rowIndex(), colIndex())}
+                        on:click={() => {
+                          console.log("debug", `tile ${changeColor(tileColor())}`);
+                          setTileColor(color())
+                        }}
                       ></div>
                     );
                   }}
@@ -71,6 +69,16 @@ function App() {
             id="btn-clear"
             onClick={() => {
               const newTiles = Array.from({ length: 10 }, () => Array(10).fill(color()));
+              console.log(color());
+              newTiles.forEach((row, rowIndex) => {
+                row.forEach((col, colIndex) => {
+                  try{
+                    document.getElementById(`tile_${rowIndex}_${colIndex}`).className = `tile ${changeColor(color())}`;
+                  } catch(err){
+                    return;
+                  }
+                });
+              });
               setTiles(newTiles);
             }}
           >
