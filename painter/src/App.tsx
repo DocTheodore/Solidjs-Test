@@ -1,37 +1,89 @@
-import { createSignal, For } from 'solid-js';
+import { Component, createEffect, createSignal, For, on } from 'solid-js';
 import './index.css';
+
+const createMatriz = (rows: number, columns: number) => {
+  const grid = new Map<number, Map<number, { row: number, col: number }>>();
+
+  for (let row = 0; row < rows; row++) {
+    const rowMap = new Map<number, { row: number, col: number }>();
+    for (let col = 0; col < columns; col++) {
+      rowMap.set(col, { row, col });
+    }
+    grid.set(row, rowMap);
+  }
+
+  return grid;
+};
+
+const colors = [
+  "white", "red", "orange", "yellow", "green", "cyan", "blue", "purple", "black", "gray"
+] as const;
+type Color = typeof colors[number];
+
 
 const [pointer, setPointer] = createSignal(false);
 const [target, setTarget] = createSignal(null);
+const [color, setColor] = createSignal<Color>("white");
+const [fill, setFill] = createSignal<Color | null>();
 
 window.addEventListener("mousedown", () => setPointer(true));
 window.addEventListener("mouseup", () => setPointer(false));
-window.addEventListener("mousemove", (e) => setTarget(e.target));
+window.addEventListener("mousemove", (e) => setTarget(e.target as any));
+
+
+interface IROW {
+  columns: Map<number, {
+    row: number;
+    col: number;
+  }>
+  index: number;
+}
+
+const Row: Component<IROW> = (props) => {
+  const { index, columns } = props;
+  
+  return (
+    <div class="lin" id={"lin" + index}>
+      <For each={Array.from(columns.values())}>
+        {({ col }) => {
+          const [tileColor, setTileColor] = createSignal<Color>(color());
+
+          createEffect(on(fill, (value) => {
+            if (!value) {
+              return;
+            }
+            setTileColor(value)
+          }));
+          
+
+          return (
+            <div
+              class={`tile ${tileColor()}`}
+              id={`tile_${index}_${col}`}
+              onClick={() => {
+                setTileColor(color())
+              }}
+            ></div>
+          );
+        }}
+      </For>
+    </div>
+  )
+}
 
 function App() {
-  const lines = Array.from({ length: 10 }, () => Array(10).fill("0"));
-  const [color, setColor] = createSignal(0);
-
-  const colorMapping = [
-    "white", "red", "orange", "yellow", "green", "cyan", "blue", "purple", "black", "gray"
-  ];
-
-  const changeColor = (index:number) => colorMapping[index] || "white";
-
-  const [tiles, setTiles] = createSignal(Array.from({ length: 10 }, () => Array(10).fill(0)));
+  const lines = createMatriz(10, 10);
 
   return (
     <>
       <div id="background">
         <div id="pallette">
-          <For each={Array.from({ length: 10 })}>
-            {(item, index) => (
+          <For each={colors}>
+            {(colorName, index) => (
               <div
-                class={`tile ${changeColor(index())}`}
-                onClick={() => setColor(index())}
-                style={
-                  "border: "+ (color() === index() ? "0.15em solid #f8e800; width:2.25em; height: 2.25em" : "none")
-                }
+                class={`tile ${colorName}`}
+                onClick={() => setColor(colorName)}
+                classList={{ active: color() == colorName}}
               >
                 {index()}
               </div>
@@ -40,27 +92,8 @@ function App() {
         </div>
 
         <div id="table">
-          <For each={lines}>
-            {(line, rowIndex) => (
-              <div class="lin" id={"lin" + rowIndex()}>
-                <For each={line}>
-                  {(item, colIndex) => {
-                    const [tileColor, setTileColor] = createSignal(tiles()[rowIndex()][colIndex()]);
-                    //console.log(tileColor());
-                    return (
-                      <div
-                        class={`tile ${changeColor(tileColor())}`}
-                        id={`tile_${rowIndex()}_${colIndex()}`}
-                        on:click={() => {
-                          console.log("debug", `tile ${changeColor(tileColor())}`);
-                          setTileColor(color())
-                        }}
-                      ></div>
-                    );
-                  }}
-                </For>
-              </div>
-            )}
+          <For each={Array.from(lines.entries())}>
+            {(rowIndex) => <Row index={rowIndex[0] as unknown as number} columns={rowIndex[1]} />}
           </For>
         </div>
 
@@ -68,18 +101,7 @@ function App() {
           <div
             id="btn-clear"
             onClick={() => {
-              const newTiles = Array.from({ length: 10 }, () => Array(10).fill(color()));
-              console.log(color());
-              newTiles.forEach((row, rowIndex) => {
-                row.forEach((col, colIndex) => {
-                  try{
-                    document.getElementById(`tile_${rowIndex}_${colIndex}`).className = `tile ${changeColor(color())}`;
-                  } catch(err){
-                    return;
-                  }
-                });
-              });
-              setTiles(newTiles);
+              setFill(color());
             }}
           >
             <img

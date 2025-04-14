@@ -53,6 +53,12 @@ body {
   align-items: center;
 }
 
+.tile.active {
+  border: 0.15em solid #f8e800; 
+  width:2.25em; 
+  height: 2.25em;
+}
+
 .white {
   background-color: white;
 }
