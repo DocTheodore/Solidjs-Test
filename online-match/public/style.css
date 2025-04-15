@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+  }
+
+.game-container {
+    text-align: center;
+}
+
+#choices {
+    margin-top: 20px;
+}
+
+#choices button{
+    padding: 20px 0px 10px 0px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.005);
+    border: 12px #f7f7f7 solid;
+    transition: .8s;
+}
+#choices button span{
+    border: 3px rgb(44, 44, 44) solid;
+    padding: 304px 15px 8px 20px;
+}
+
+#tesoura:hover{
+    border-color: rgb(255, 255, 127);
+    transition: .5s;
+}
+#tesoura.selected{
+    display: block !important;
+    border-color: rgb(255, 255, 0);
+    transition: 2s;
+}
+
+#papel:hover{
+    border-color: rgb(118, 221, 255);
+    transition: .5s;
+}
+#papel.selected{
+    display: block !important;
+    border-color: rgb(0, 191, 255);
+    transition: 2s;
+}
+
+#pedra:hover{
+    border-color: rgb(255, 177, 190);
+    transition: .5s;
+}
+#pedra.selected{
+    display: block !important;
+    border-color: rgb(255, 51, 85);
+    transition: 2s;
+}
+
+#status {
+    font-size: 18px;
+    margin-bottom: 20px;
+    transition: 4s;
+}
