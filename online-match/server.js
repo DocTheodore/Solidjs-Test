@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const ip = require("ip");
 
 const app = express();
 const server = http.createServer(app);
@@ -22,30 +23,54 @@ io.on('connection', (socket) => {
   } else if(players.length > 2) players.shift();
 
   // Comunicação para jogo de pedra-papel-tesoura
-  socket.on('play', (choice) => {
+  socket.on('play', async (choice) => {
     //console.log("Jogador fez sua jogada", choice);
     const user = players.find(player => player.id === socket.id);
     const opponent = players.find(player => player.id !== socket.id);
     let battle = true;
 
-    players.forEach(player => {
-        if (!player.choice) battle = false;
+    if (!choice) return
+    user.choice = choice;
+    
+
+    players.forEach((player, i) => {
+      console.log(`player ${i}`,player.choice);
+        if (player.choice === '') battle = false;
     })
 
+    if (!choice) return
     user.choice = choice;
 
+    console.log(players, battle);
+
     if (opponent && battle) {
-        if (user.choice === opponent.choice) socket.emit('opponent_play', "Empate");
-        if(
-            (user.choice === 'pedra' && opponent.choice === 'tesoura') || 
-            (user.choice === 'tesoura' && opponent.choice === 'papel') || 
-            (user.choice === 'papel' && opponent.choice === 'pedra')
-        ) {
-            return socket.emit('opponent_play', "Player 1 Venceu!");
-        }
-        else return socket.emit('opponent_play', "Player 2 Venceu!");
+      await new Promise(resolve => setTimeout(resolve, 350));
+      console.log("Batalha");
+    
+      let resultUser, resultOpponent;
+    
+      if (user.choice === opponent.choice) {
+        resultUser = resultOpponent = "Empatou";
+      } else if (
+        (user.choice === 'pedra' && opponent.choice === 'tesoura') || 
+        (user.choice === 'tesoura' && opponent.choice === 'papel') || 
+        (user.choice === 'papel' && opponent.choice === 'pedra')
+      ) {
+        resultUser = "Venceu";
+        resultOpponent = "Perdeu";
+      } else {
+        resultUser = "Perdeu";
+        resultOpponent = "Venceu";
+      }
+    
+      // Enviar resultado para ambos os jogadores
+      io.to(user.id).emit('opponent_play', resultUser, opponent.choice);
+      io.to(opponent.id).emit('opponent_play', resultOpponent, user.choice);
+
+      // Resetar escolhas para permitir nova rodada
+      players.forEach(player => player.choice = '');
     }
-  });
+});
 
   socket.on('disconnect', () => {
     console.log('Jogador desconectado');
@@ -55,5 +80,5 @@ io.on('connection', (socket) => {
 
 // Iniciar o servidor na porta 3000
 server.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000');
+  console.log(`Servidor rodando em  http://${ip.address()}:3000`);
 });
