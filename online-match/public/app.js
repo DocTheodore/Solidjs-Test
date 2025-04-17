@@ -18,7 +18,11 @@ socket.on('opponent_play', (winner, opChoice) => {
     choices.style.display = 'none';
     const userChoice = document.querySelector('.selected') ? document.querySelector('.selected').id : '';
     if(!userChoice) return;
-    result.textContent = `você escolheu ${userChoice}, seu oponente escolheu ${opChoice}, Você ${winner}!`;
+    result.innerHTML = `
+    você escolheu <span class="text-${userChoice}">${userChoice}</span>, 
+    seu oponente escolheu <span class="text-${opChoice}">${opChoice}</span>, 
+    Você <span id="${winner}">${winner}</span>!
+    `;
 });
 
 
