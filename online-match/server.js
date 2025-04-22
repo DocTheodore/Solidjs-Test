@@ -21,6 +21,8 @@ io.on('connection', (socket) => {
   if (players.length === 2) {
     io.emit('start_game');
   } else if(players.length > 2) players.shift();
+  console.log(players);
+
 
   // Comunicação para jogo de pedra-papel-tesoura
   socket.on('play', async (choice) => {
@@ -39,9 +41,11 @@ io.on('connection', (socket) => {
     })
 
     if (!choice) return
-    user.choice = choice;
-
-    console.log(players, battle);
+    try{
+      user.choice = choice;
+    } catch(err){
+      console.log(choice, err);
+    }
 
     if (opponent && battle) {
       await new Promise(resolve => setTimeout(resolve, 350));
@@ -68,9 +72,12 @@ io.on('connection', (socket) => {
       io.to(opponent.id).emit('opponent_play', resultOpponent, user.choice);
 
       // Resetar escolhas para permitir nova rodada
-      players.forEach(player => player.choice = '');
+      players.forEach(player => {
+        player.choice = '';
+        //o.to(player.id).emit("reload_session");
+      });
     }
-});
+  });
 
   socket.on('disconnect', () => {
     console.log('Jogador desconectado');

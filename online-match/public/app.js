@@ -5,12 +5,21 @@ const choices = document.getElementById('choices');
 const result = document.getElementById('result');
 const buttons = document.querySelectorAll('button');
 
+window.addEventListener('reset', ()=>{
+    socket.emit('reload_session');
+})
+
 //Começo do jogo
 socket.on('start_game', () => {
     //console.log("teste");
-    status.textContent = 'Escolha sua jogada!';
+    status.innerHTML = 'Escolha sua jogada!';
     choices.style.display = 'block';
 });
+
+socket.on('reload_session', () => {
+    console.log("resetado");
+    window.location.reload();
+})
 
 //Jogada do oponente
 socket.on('opponent_play', (winner, opChoice) => {
